@@ -34,6 +34,7 @@ require DT_ROOT.'/include/file.func.php';
 $DT_TIME = time() + $CFG['timediff'];
 $DT_BOT = is_robot();
 $DT_IP = get_env('ip');
+$DT_TOUCH = is_touch();
 
 header("Content-Type:text/html;charset=".'UTF-8');
 if($CFG['db_host'] != ''){
@@ -45,6 +46,7 @@ if($CFG['db_host'] != ''){
 }
 
 $PHPLite = new \LiteClass\phplite_class();
+
 
 //  以下更据需要加载扩展
 //require_once DT_ROOT.'/include/redis.inc.php';

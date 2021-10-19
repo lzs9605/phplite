@@ -4,21 +4,6 @@
 	This is a freeware, use is subject to license.txt
 */
 defined('IN_PHPLite') or exit('Access Denied');
-function daddslashes($string) {
-	return is_array($string) ? array_map('daddslashes', $string) : addslashes($string);
-}
-
-function dstripslashes($string) {
-	return is_array($string) ? array_map('dstripslashes', $string) : stripslashes($string);
-}
-
-function dtrim($string) {
-	return str_replace(array(chr(10), chr(13), "\t", ' '), array('', '', '', ''), $string);
-}
-
-function dwrite($string) {
-	return str_replace(array(chr(10), chr(13), "'"), array('', '', "\'"), $string);
-}
 
 function unn_encrypt($txt, $key = '', $expiry = 0) {
 	strlen($key) > 5 or $key = DT_KEY;
@@ -334,5 +319,50 @@ function dhttp($status, $exit = 1) {
 	if($exit) exit;
 }
 
+//Safe function
 
+function dhtmlspecialchars($string) {
+	if(is_array($string)) {
+		return array_map('dhtmlspecialchars', $string);
+	} else {
+		$string = htmlspecialchars($string, ENT_QUOTES, DT_CHARSET == 'GBK' ? 'GB2312' : 'UTF-8');
+		return str_replace('&amp;', '&', $string);
+	}
+}
+
+function dsafe($string, $type = 1) {
+	if(is_array($string)) {
+		return array_map('dsafe', $string);
+	} else {
+		if($type) {
+			$string = str_replace('<em></em>', '', $string);
+			$string = preg_replace("/\<\!\-\-([\s\S]*?)\-\-\>/", "", $string);
+			$string = preg_replace("/\/\*([\s\S]*?)\*\//", "", $string);
+			$string = preg_replace("/&#([a-z0-9]{1,})/i", "<em></em>&#\\1", $string);
+			$match = array("/s[\s]*c[\s]*r[\s]*i[\s]*p[\s]*t/i","/d[\s]*a[\s]*t[\s]*a[\s]*\:/i","/b[\s]*a[\s]*s[\s]*e/i","/e[\\\]*x[\\\]*p[\\\]*r[\\\]*e[\\\]*s[\\\]*s[\\\]*i[\\\]*o[\\\]*n/i","/i[\\\]*m[\\\]*p[\\\]*o[\\\]*r[\\\]*t/i","/on([a-z]{2,})([\(|\=|\s]+)/i","/about/i","/frame/i","/link/i","/meta/i","/textarea/i","/eval/i","/alert/i","/confirm/i","/prompt/i","/cookie/i","/document/i","/newline/i","/colon/i","/<style/i","/\\\x/i");
+			$replace = array("s<em></em>cript","da<em></em>ta:","ba<em></em>se","ex<em></em>pression","im<em></em>port","o<em></em>n\\1\\2","a<em></em>bout","f<em></em>rame","l<em></em>ink","me<em></em>ta","text<em></em>area","e<em></em>val","a<em></em>lert","/con<em></em>firm/i","prom<em></em>pt","coo<em></em>kie","docu<em></em>ment","new<em></em>line","co<em></em>lon","<sty1e","\<em></em>x");
+			return str_replace(array('isShowa<em></em>bout', 'co<em></em>ntrols'), array('isShowAbout', 'controls'), preg_replace($match, $replace, $string));
+		} else {
+			return str_replace(array('<em></em>', '<sty1e'), array('', '<style'), $string);
+		}
+	}
+}
+
+function strip_sql($string, $type = 1) {
+	if(is_array($string)) {
+		return array_map('strip_sql', $string);
+	} else {
+		if($type) {
+			global $DT_PRE;
+			$string = preg_replace("/\/\*([\s\S]*?)\*\//", "", $string);
+			$string = preg_replace("/0x([a-f0-9]{2,})/i", '0&#120;\\1', $string);
+			$string = preg_replace_callback("/(select|update|replace|delete|drop)([\s\S]*?)({$DT_PRE}|from)/i", 'strip_wd', $string);
+			$string = preg_replace_callback("/(load_file|substring|substr|reverse|trim|space|left|right|mid|lpad|concat|concat_ws|make_set|ascii|bin|oct|hex|ord|char|conv)([^a-z]?)\(/i", 'strip_wd', $string);
+			$string = preg_replace_callback("/(union|where|having|outfile|dumpfile|{$DT_PRE})/i", 'strip_wd', $string);
+			return $string;
+		} else {
+			return str_replace(array('&#95;','&#100;','&#101;','&#103;','&#105;','&#109;','&#110;','&#112;','&#114;','&#115;','&#116;','&#118;','&#120;'), array('_','d','e','g','i','m','n','p','r','s','t','v','x'), $string);
+		}
+	}
+}
 ?>

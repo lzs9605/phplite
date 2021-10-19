@@ -99,7 +99,7 @@ class GoogleAuthenticator
  
         $urlencoded = urlencode('otpauth://totp/'.$name.'?secret='.$secret.'');
         if (isset($title)) {
-            $urlencoded .= urlencode('&issuer='.urlencode($title));
+            $urlencoded .= urlencode('&issuer='.$title);
         }
  
         //return 'https://chart.googleapis.com/chart?chs='.$width.'x'.$height.'&chld='.$level.'|0&cht=qr&chl='.$urlencoded.'';
