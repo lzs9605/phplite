@@ -7,7 +7,8 @@ Create on 2021-10-19
 
 
 安装说明：
-file/cache  需设 0777权限
+
+file/cache  需设 0777权限  为模板文件生成的缓存目录
 
 DEMO
 https://phplite.unn.tech/
