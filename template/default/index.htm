@@ -1,0 +1,16 @@
+{php $CSS = array('index');}
+{template 'header'}
+<style>
+
+</style>
+<div class="container mt-3">
+    {loop $a $k $v}
+    {$v}<BR>
+    {/loop} 
+</div>
+<div class="container mt-3">
+    {$qrCodeUrl}<BR>
+    <img src='{$qrCodeUrl}' />
+</div>
+<div class="footer"> PHPLite @ UNN.tech Frame</div>
+{template 'footer'}

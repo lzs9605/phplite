@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="//apis.zhisg.com/css/common.css"/>
+<link rel="stylesheet" type="text/css" href="/{DT_SKIN}common.css"/>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width">
+<title>信息提示</title>
+<style>
+	.msg{margin: 10px; padding: 10px; border: #ccc 1px solid; border-radius: 5px; background: #FFF; font-size: 1.5em;}	
+</style>
+
+</head>
+
+<body>
+<header>
+<div class="home-nav"><a class="back" href="javascript:history.back();"></a><h1>{if isset($msgtitle)}{$msgtitle}{else}信息提示{/if}</h1><a href="member.php"><span class="member-right"></span></a></div>
+</header>
+<span class="hr20"></span>
+<div class="msg">
+	{$thmessage}
+</div>
+</body>
+</html>

@@ -15,13 +15,17 @@ $CFG['db_pass'] = '';
 $CFG['db_charset'] = 'utf8';
 $CFG['db_expires'] = '0';
 $CFG['tb_pre'] = '';
-$CFG['cookie_domain'] = '.unn.tech';
+$CFG['cache_dir'] = '';
+$CFG['file_mod'] = 0777;
+$CFG['template_refresh'] = '1';
+$CFG['cookie_domain'] = 'phplite.unn.tech';
 $CFG['cookie_path'] = '/';
 $CFG['cookie_pre'] = 'unn_';
 $CFG['session'] = 'file';
 $CFG['skin'] = 'default';
 $CFG['template'] = 'default';
 $CFG['authkey'] = 'PHPLite_bf6455523d7c1bfbb05bc9c4770293fa';
+$CFG['timediff'] = 0;
 
 
 ?>
