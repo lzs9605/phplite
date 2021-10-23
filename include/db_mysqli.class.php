@@ -42,7 +42,7 @@ class db_mysqli {
 		}
 		$version = $this->version();
 		if($version > '4.1' && $dbcharset) mysqli_query($this->connid, "SET character_set_connection=".$dbcharset.", character_set_results=".$dbcharset.", character_set_client=binary");
-		if($version > '5.0') mysqli_query($this->connid, "SET sql_mode=''");
+		//if($version > '5.0') mysqli_query($this->connid, "SET sql_mode=''");
 		if($dbname && !mysqli_select_db($this->connid, $dbname)) $this->halt('Cannot use database '.$dbname);
 		return $this->connid;
 	}
