@@ -10,9 +10,9 @@ class wx_class {
     protected $db, $DT_TIME;
     public $encodingAesKey = "";
     public $token = "";
-    public $appId = "wx1b968e062d6111fc";
-    public $appsecret = "add04ea74a1572592859db053c538b83";
-    public $GID = 'gh_3db7a6e6f0c3';
+    public $appId = "";
+    public $appsecret = "";
+    public $GID = '';
     public $ACCESS_TOKEN = '';
 
     public function __construct() {
