@@ -74,6 +74,20 @@ class db_mysqli {
 		$this->free_result($query);
 		return $r[0];
 	}
+    
+    function get_rows($sql, $indexfield=''){
+        //$sql = str_replace(array('select ', ' limit '), array('SELECT ', ' LIMIT '), $sql);
+        $res = $this->query($sql);
+        $ret = array();
+        while($r = $res->fetch_assoc()){
+            if($indexfield=='' || !isset($r[$indexfield])){
+                $ret[] = $r;
+            }else{
+                $ret[$r[$indexfield]] = $r;
+            }    
+        }
+        return $ret;
+    }
 	
 	function count($table, $condition = '', $ttl = 0) {
 		$sql = 'SELECT COUNT(*) AS amount FROM '.$table;

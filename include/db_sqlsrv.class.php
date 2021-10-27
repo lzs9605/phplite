@@ -3,12 +3,12 @@
 	[UENEN TECHNOLOGIES] Copyright (c) 2021 unn.tech
 	This is a freeware, use is subject to license.txt
 */
-class db_mssql {
+class db_sqlsrv {
 	var $querynum = 0;
 	var $connid = 0;
 	var $insertid = 0;
 
-	function connect( $dbhost = 'localhost', $dbuser, $dbpw, $dbname, $pconnect = 0 ) {
+	function connect( $dbhost = 'localhost', $dbuser, $dbpw, $dbname, $dbttl, $dbcharset, $pconnect = 0 ) {
 		$connectionOptions = array(
 			"Database" => $dbname,
 			"Uid" => $dbuser,
