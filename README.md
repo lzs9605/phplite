@@ -2,7 +2,7 @@
 A lite php frame
 Create on 2021-10-19
 
-一个PHP的轻量框架，支持 autoload 加载类
+一个PHP的轻量框架，支持 autoload 加载类，方便composer添加扩展
 完美兼容PHP8
 
 
