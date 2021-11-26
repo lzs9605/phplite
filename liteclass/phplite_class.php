@@ -58,6 +58,31 @@ class phplite_class {
             return 0;
         }
     }
+    
+    public function getRequestHeaders(){
+        if (function_exists('apache_request_headers') && $result = apache_request_headers()) {
+            $header = $result;
+        } else {
+            $header = [];
+            $server = $_SERVER;
+            foreach ($server as $key => $val) {
+                if (0 === strpos($key, 'HTTP_')) {
+                    $key          = str_replace('_', '-', strtolower(substr($key, 5)));
+                    $header[$key] = $val;
+                }
+            }
+            if (isset($server['CONTENT_TYPE'])) {
+                $header['content-type'] = $server['CONTENT_TYPE'];
+            }
+            if (isset($server['CONTENT_LENGTH'])) {
+                $header['content-length'] = $server['CONTENT_LENGTH'];
+            }
+        }
+
+        $ret = array_change_key_case($header);
+
+        return $ret;
+    }
 	
 	public function createNonceStr( $length = 16 ) {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -68,27 +93,41 @@ class phplite_class {
         return $str;
     }
 	
-	public function do_get( $url ) {
+	public function do_get( $url, $aHeader = null) {
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url );
         curl_setopt( $ch, CURLOPT_HEADER, 0 );
+        if($aHeader != null){
+            foreach($aHeader as $k=>$v){
+                $pHeader[] = "{$k}: {$v}";
+            }
+            curl_setopt( $ch, CURLOPT_HTTPHEADER, $pHeader);
+        }
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
         curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
         curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );
+        curl_setopt( $ch, CURLOPT_USERAGENT, 'Mozilla/5.0' );
         $strRes = curl_exec( $ch );
         curl_close( $ch );
         return $strRes;
     }
 
-    public function do_post( $url, $data ) {
+    public function do_post( $url, $data, $aHeader = null ) {
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_URL, $url );
         curl_setopt( $ch, CURLOPT_HEADER, 0 );
+        if($aHeader != null){
+            foreach($aHeader as $k=>$v){
+                $pHeader[] = "{$k}: {$v}";
+            }
+            curl_setopt( $ch, CURLOPT_HTTPHEADER, $pHeader);
+        }
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
         curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
         curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );
         curl_setopt( $ch, CURLOPT_POST, true );
         curl_setopt( $ch, CURLOPT_POSTFIELDS, $data );
+        curl_setopt( $ch, CURLOPT_USERAGENT, 'Mozilla/5.0' );
         $strRes = curl_exec( $ch );
         curl_close( $ch );
         return $strRes;

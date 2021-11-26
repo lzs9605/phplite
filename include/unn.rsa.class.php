@@ -8,8 +8,8 @@
  * 如密钥长度为1024 bit，则加密时数据需小于128字节，加上PKCS1Padding本身的11字节信息，所以明文需小于117字节
  *
  * @author: UNN.tech
- * @version: 1.0.0
- * @date: 2020/8/26
+ * @version: 1.0.1
+ * @date: 2021/11/21
  */
 class unn_rsa {
     protected $pubKey = null;
@@ -69,26 +69,21 @@ class unn_rsa {
      * @param array 签名数组
      * @param string 签名编码（base64/hex/bin）
      * @return 包函sign字段的数组
-     * 数组签名规则，键值排序，连接字符串
+     * 数组签名规则，键值排序，转JSON字符串
      */
     public function signArray( $data, $code = 'base64' ) {
         if(array_key_exists('sign', $data)){
             unset( $data[ 'sign' ] );
         }
         ksort($data);
-        $data['sign'] = $this->sign(http_build_query($data), $code);
+        $data['sign'] = $this->sign(json_encode($data), $code);
         return $data;
     }
     public function verifySignArray($data, $pubkey='', $code = 'base64'){
-        if($pubkey == ''){
-            $pubkey = $this->thirdPubKey == '' ? $this->pubKey : $this->thirdPubKey;
-        }else{
-            $pubkey = "-----BEGIN PUBLIC KEY-----\n" . wordwrap($pubkey, 64, "\n", true) . "\n-----END PUBLIC KEY-----";
-        }
         $sign = $data['sign'];
         unset($data['sign']);
         ksort($data);
-        return $this->verifySign(http_build_query($data),$sign,$pubkey,$code);
+        return $this->verifySign(json_encode($data),$sign,$pubkey,$code);
     }
     
     /**
