@@ -33,6 +33,7 @@ class unn_ewt{
             $key = $this -> ckey;
         }
         $ciphertext = openssl_encrypt($plaintext, $this -> cipher, $key, 0, $this -> iv); //, $this -> tag
+        $ciphertext = $this->base64UrlEncode($ciphertext);
         return $ciphertext;
     }
     
@@ -40,6 +41,7 @@ class unn_ewt{
         if($key == ''){
             $key = $this -> ckey;
         }
+        $ciphertext = $this->base64UrlDecode($ciphertext);
         $original_plaintext = openssl_decrypt($ciphertext, $this -> cipher, $key, 0, $this -> iv); //, $this -> tag
         return $original_plaintext;
     }
@@ -51,7 +53,7 @@ class unn_ewt{
      */
     public static function base64UrlEncode($input)
     {
-        return str_replace('=', '', strtr(base64_encode($input), '+/', '-_'));
+        return str_replace('=', '', strtr($input, '+/', '-_'));
     }
 
     /**
@@ -66,7 +68,7 @@ class unn_ewt{
             $addlen = 4 - $remainder;
             $input .= str_repeat('=', $addlen);
         }
-        return base64_decode(strtr($input, '-_', '+/'));
+        return strtr($input, '-_', '+/');
     }
     
 }
