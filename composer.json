@@ -1,5 +1,16 @@
 {
+    "name": "lzs9605/phplite",
+    "description": "A lite php Framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jason Lin",
+            "email": "lzs9605@gmail.com"
+        }
+    ],
     "require": {
+        
     },
     "autoload": {
         "psr-4": {
